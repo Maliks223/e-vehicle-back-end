@@ -1,11 +1,12 @@
-const { Schema, model } = import("mongoose");
+const { Schema, model } = require("mongoose");
 
 const UserSchema = new Schema({
-  name: {
+  userName: {
     type: String,
     min: [4, "Too short, min is 4 characters"],
     max: [20, "Too long, max is 32 characters"],
     required: [true, "Name is Required!"],
+    trim:true,
   },
   email: {
     type: String,
@@ -15,6 +16,7 @@ const UserSchema = new Schema({
     lowercase: true,
     required: [true, "Email is Required!"],
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/],
+    trim:true,
   },
   password: {
     type: String,
@@ -28,6 +30,7 @@ const UserSchema = new Schema({
   
 },{timestamps: true} );
 
-const User = model("users", UserSchema);
+const User = model("User", UserSchema);
 
-export{User};
+module.exports = User;
+
