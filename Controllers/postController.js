@@ -44,6 +44,7 @@ const createPost = asyncHandler(async (req, res) => {
   });
   if (post) {
     res.status(201).json({
+      id: post.id,
       title: post.title,
       desc: post.desc,
       categories: post.categories,
@@ -58,7 +59,7 @@ const createPost = asyncHandler(async (req, res) => {
 const deletePost = asyncHandler(async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.id);
-    res.status(200).json("Product has been deleted...");
+    res.status(200).json("Post has been deleted");
   } catch (err) {
     res.status(500).json(err);
   }

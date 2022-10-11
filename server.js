@@ -6,6 +6,7 @@ const port = process.env.port || 5000
 const connectDB = require('./DataBase/db')
 const user = require('./Routes/userRoute')
 const post = require('./Routes/postRoute')
+const comment = require('./Routes/commentRoute')
 var bodyParser = require('body-parser');
 // var multer = require('multer');
 // var upload = multer();
@@ -21,5 +22,6 @@ app.use(express.static('public'));
 
 app.use("/user", user);
 app.use("/post", post);
+app.use("/comment", comment)
 
 app.listen(port, ()=> console.log(`Server started on port: ${port}`.green.underline))
