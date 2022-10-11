@@ -7,8 +7,8 @@ const connectDB = require('./DataBase/db')
 const user = require('./Routes/userRoute')
 const post = require('./Routes/postRoute')
 var bodyParser = require('body-parser');
-var multer = require('multer');
-var upload = multer();
+// var multer = require('multer');
+// var upload = multer();
 var cors = require('cors');
 const app = express();
 connectDB();
@@ -16,7 +16,7 @@ connectDB();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(upload.array()); 
+// app.use(upload.array()); 
 app.use(express.static('public'));
 
 app.use("/user", user);

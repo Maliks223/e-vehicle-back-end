@@ -118,6 +118,7 @@ const getMe = asyncHandler(async (req, res) => {
 });
 
 //Generate JWT
+// console.log(process.env.JWT_SECRET);
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "10d" });
