@@ -44,22 +44,22 @@ const addVote = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!comment_id) {
     return res.status(404).json({
-      error: "Post not found!",
+      error: "Comment not found!",
     });
   } else {
-    const createdComment = {
-      // user_id: req.params.id, //who make the comment
-    //   text: comment_text,   
-      votes: 0,
-    };
     const post = await Post.findById(id);
-    // post.comments.push(createdComment);
-    post.comments.map((comment) => {
-      if (comment._id == comment_id) {
-        comment.votes = comment.votes + 1;
-        console.log("🚀 ~ file: commentsController.js ~ line 60 ~ post.comments.map ~ comment", comment)
-      }
+    post.comments.forEach((comment) => {
+         if (comment._id == comment_id) {
+          console.log(comment.votes);
+           comment.votes++;
+         }
     });
+    const result = await Post.updateOne({_id:id}, post);
+    if(result){
+      res.status(200).json({
+        post:post
+      })
+    }
   }
 });
 
