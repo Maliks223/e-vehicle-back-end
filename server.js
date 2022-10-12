@@ -17,8 +17,8 @@ connectDB();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
-// app.use(upload.array()); 
-app.use(express.static('public'));
+// app.use(upload.array());
+app.use("/public", express.static("uploads"));
 
 app.use("/user", user);
 app.use("/post", post);

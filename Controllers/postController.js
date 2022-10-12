@@ -6,11 +6,11 @@ const asyncHandler = require("express-async-handler");
 
 const createPost = asyncHandler(async (req, res) => {
   // console.log("create post");
-  const { title, desc, categories } = req.body;
+  const { title, desc, categories, author } = req.body;
   const img = req?.file;
   // console.log("img", img);
 
-  if (!title && !desc && !categories && !img) {
+  if (!title && !desc && !categories && !img && !author) {
     res.status(400);
     return res.json({ message: "All fields are required!" });
   }
@@ -23,9 +23,14 @@ const createPost = asyncHandler(async (req, res) => {
   if (!desc) {
     errors["description"] = "Description is required";
   }
+
   //check category only
   if (!categories) {
     errors["category"] = "Category is required";
+  }
+  // check author
+  if (!author) {
+    errors["author"] = "Author is required";
   }
   //check image only
   if (!img) {
@@ -38,6 +43,7 @@ const createPost = asyncHandler(async (req, res) => {
 
   const post = await Post.create({
     title,
+    author,
     desc,
     categories,
     img: img.filename,
@@ -46,6 +52,7 @@ const createPost = asyncHandler(async (req, res) => {
     res.status(201).json({
       id: post.id,
       title: post.title,
+      author: post.author,
       desc: post.desc,
       categories: post.categories,
       img: post.img,
@@ -89,6 +96,23 @@ const getAllPosts = asyncHandler(async (req, res) => {
   }
 });
 
+const searchPosts = asyncHandler(async (req, res) => {
+  try {
+    const Posts = await Post.find({
+      title: {
+        $regex: req.query.q,
+        $option: "i",
+      },
+      title: {
+        $regex: req.query.q,
+        $option: "i",
+      }
+    })
+    res.status(200).json(Posts)
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 module.exports = {
   createPost,
   deletePost,

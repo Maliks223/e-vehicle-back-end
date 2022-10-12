@@ -1,4 +1,4 @@
-const Comment = require("../Models/commentModel.js");
+const Post = require("../Models/postModel.js");
 const asyncHandler = require("express-async-handler");
 
 // create new comment
@@ -6,8 +6,9 @@ const asyncHandler = require("express-async-handler");
 
 const addComment = asyncHandler(async (req, res, next) => {
   const { comment_text } = req.body;
+  const { id } = req.params;
   try {
-    if (!req.params.id) {
+    if (!id) {
       // not found userPosts
       return res.status(404).json({
         error: "Post not found!",
@@ -15,18 +16,21 @@ const addComment = asyncHandler(async (req, res, next) => {
     } else {
       if (!comment_text) {
         return res.status(403).json({
-          error: "comment is empty",
+          error: "Comment is empty",
         });
       }
-      await Comment.create({
-        user_id: req.params.id, //who make the comment
-        post_id: req.params.pId,
-        comment_text: comment_text,
-      });
+      const createdComment = {
+        text: comment_text,
+        votes: 0,
+      };
 
-      return res.status(200).json({
-        message: "comment successfully added",
-      });
+      const post = await Post.findById(id);
+
+      post.comments.push(createdComment);
+
+      const updatedPost = await Post.findByIdAndUpdate(id, post);
+
+      return res.status(200).json(updatedPost);
     }
   } catch (error) {
     return res.status(500).json({
@@ -35,23 +39,31 @@ const addComment = asyncHandler(async (req, res, next) => {
   }
 });
 
+const addVote = asyncHandler(async (req, res) => {
+  const { comment_id } = req.body;
+  const { id } = req.params;
+  if (!comment_id) {
+    return res.status(404).json({
+      error: "Post not found!",
+    });
+  } else {
+    const createdComment = {
+      // user_id: req.params.id, //who make the comment
+    //   text: comment_text,   
+      votes: 0,
+    };
+    const post = await Post.findById(id);
+    // post.comments.push(createdComment);
+    post.comments.map((comment) => {
+      if (comment._id == comment_id) {
+        comment.votes = comment.votes + 1;
+        console.log("🚀 ~ file: commentsController.js ~ line 60 ~ post.comments.map ~ comment", comment)
+      }
+    });
+  }
+});
+
 module.exports = {
   addComment,
+  addVote,
 };
-
-// const { comment_text } = req.body;
-
-//   if (!comment_text) {
-//     res.status(400);
-//     return res.json({ message: "This field cannot be empty!" });
-//   }
-
-//   const comment = await Comment.create({
-//     comment_text,
-//   });
-//   if (comment) {
-//     res.status(201).json({
-//       comment_text: comment.comment_text,
-//       message: "Comment added succesfully",
-//     });
-//   }

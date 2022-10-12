@@ -11,7 +11,14 @@ const PostSchema = new Schema(
     //   ref: "User",
     //   required: true,
     // },
+    author: String,
     categories: Array,
+    comments: [{
+      text: String,
+      votes: Number,
+      date: Date
+    }]
+    // comments: { type: [String], default: [] }
   },
   { timestamps: true }
 );
