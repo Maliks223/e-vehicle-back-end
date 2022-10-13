@@ -2,7 +2,7 @@ const colors = require('colors');
 const mongoose = require('mongoose');
 require('dotenv').config()
 const express = require("express");
-const port = process.env.port || 5000
+const port = process.env.PORT || 5000
 const connectDB = require('./DataBase/db')
 const user = require('./Routes/userRoute')
 const post = require('./Routes/postRoute')
