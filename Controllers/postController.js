@@ -28,6 +28,11 @@ const createPost = asyncHandler(async (req, res) => {
   if (!categories) {
     errors["category"] = "Category is required";
   }
+
+  if(categories.length>=10) {
+    errors["category"] = "Category can be 15 characters only, post was not created!";
+  }
+
   // check author
   if (!author) {
     errors["author"] = "Author is required";

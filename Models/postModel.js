@@ -12,7 +12,7 @@ const PostSchema = new Schema(
     //   required: true,
     // },
     author: String,
-    categories: Array,
+    categories:  Array,
     comments: [{
       text: String,
       votes: Number,
