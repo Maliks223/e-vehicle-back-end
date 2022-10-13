@@ -12,9 +12,9 @@ var bodyParser = require('body-parser');
 // var upload = multer();
 var cors = require('cors');
 const app = express();
+app.use(cors());
 connectDB();
 
-app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
 // app.use(upload.array());
