@@ -16,7 +16,7 @@ const addComment = asyncHandler(async (req, res, next) => {
     } else {
       if (!comment_text) {
         return res.status(403).json({
-          error: "Comment is empty",
+          error: "You cannot add an empty comment",
         });
       }
       const createdComment = {
