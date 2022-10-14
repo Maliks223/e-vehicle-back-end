@@ -4,7 +4,7 @@ const { createPost, deletePost, getAllPosts, getSinglePost } = require("../Contr
 const protect = require("../Middlewares/authMiddlewares");
 const upload = require('../Middlewares/upload.js');
 
-router.post("/", protect, upload.single("img"), createPost);
+router.post("/",  upload.single("img"), createPost);
 router.get("/all",  getAllPosts);
 router.get("/:id", protect, getSinglePost);
 router.delete("/delete", protect, deletePost);
