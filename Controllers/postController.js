@@ -6,9 +6,10 @@ const asyncHandler = require("express-async-handler");
 
 const createPost = asyncHandler(async (req, res) => {
   // console.log("create post");
-  const { title, desc, categories } = req.body;
+  console.log('here');
+  const { title, desc, categories, author } = req.body;
   const img = req?.file;
-  // console.log("img", img);
+  console.log("img", img);
 
   if (!title && !desc && !categories && !img && !author) {
     res.status(400);
