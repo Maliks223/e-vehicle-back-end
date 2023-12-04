@@ -3,7 +3,7 @@ const router = express.Router();
 const protect = require("../Middlewares/authMiddlewares");
 const { addComment, addVote } = require('../Controllers/commentsController')
 
-router.post('/:post_id', protect, addComment)
+router.post('/:id', protect, addComment)
 router.put('/:id', protect, addVote)
 
 

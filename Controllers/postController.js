@@ -6,9 +6,10 @@ const asyncHandler = require("express-async-handler");
 
 const createPost = asyncHandler(async (req, res) => {
   // console.log("create post");
+  console.log('here');
   const { title, desc, categories, author } = req.body;
   const img = req?.file;
-  // console.log("img", img);
+  console.log("img", img);
 
   if (!title && !desc && !categories && !img && !author) {
     res.status(400);
@@ -33,10 +34,7 @@ const createPost = asyncHandler(async (req, res) => {
     errors["category"] = "Category can be 15 characters only, post was not created!";
   }
 
-  // check author
-  if (!author) {
-    errors["author"] = "Author is required";
-  }
+ 
   //check image only
   if (!img) {
     errors["image"] = "Image is required";

@@ -2,7 +2,7 @@ const colors = require('colors');
 const mongoose = require('mongoose');
 require('dotenv').config()
 const express = require("express");
-const port = process.env.port || 5000
+const port = process.env.PORT
 const connectDB = require('./DataBase/db')
 const user = require('./Routes/userRoute')
 const post = require('./Routes/postRoute')
@@ -12,13 +12,13 @@ var bodyParser = require('body-parser');
 // var upload = multer();
 var cors = require('cors');
 const app = express();
+app.use(cors());
 connectDB();
 
-app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
 // app.use(upload.array());
-app.use("/public", express.static("uploads"));
+app.use("/public", express.static("./uploads"));
 
 app.use("/user", user);
 app.use("/post", post);
