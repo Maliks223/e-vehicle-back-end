@@ -1,0 +1,48 @@
+
+
+version: '3.9'
+
+services:
+
+  backend:
+    #Naming the containerdocker-co
+    container_name: backend
+    #Location of the Dockerfile in the backend folder
+    build: 
+      context: /e-vehicle-back-end
+      dockerfile: Dockerfile
+    #Laravel environment variables
+    environment:        
+        DB_HOST: db
+        DB_DATABASE: e-vehicle
+        DB_USERNAME: admin  
+        DB_PASSWORD: admin
+
+    ports:
+        # First port is the container port and the second port is the exposed port so you can access your backend on your computer
+        - 8000:8000
+    # To store the new changes from your local environment to the docker container 
+    # if you don't use volumnes if you change anything in your code on your computer 
+    # it will not change anything in the docker container
+    volumes:
+        - ./backend:/app/backend
+    # This Backend (Laravel) depends on database
+    depends_on:
+          - db
+    # network setting to make sure all containers are able to access each other
+    networks:
+        - app
+  db:
+
+    # I am using this image of mysql (arm64v8) because I am my laptop CPU is M1
+    image: mongo
+    ports: 
+      - "27017:27017"
+    networks:
+        - app
+    # volumes:
+    #   - mongo-data:/data/db
+    
+networks:
+  app:
+    driver: bridge
